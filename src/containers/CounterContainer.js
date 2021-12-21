@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import { decrease, increase, setDiff } from "../modules/counter";
 import Counter from "../components/Counter";
@@ -10,10 +10,24 @@ import Counter from "../components/Counter";
 function CounterContainer() {
   // useSelector는 리덕스 스토어의 상태를 조회
   // state = store.getState() 결과물과 동일
-  const { number, diff } = useSelector((state) => ({
-    number: state.counter.number,
-    diff: state.counter.diff,
-  }));
+  // const { number, diff } = useSelector((state) => ({
+  //   number: state.counter.number,
+  //   diff: state.counter.diff,
+  // }));
+
+  // 바로 위 코드는 매번 렌더링이 될 때마다 새로운 객체를 만듦 => 최적화 필요
+  // 첫번째 방법
+  // const number = useSelector((state) => state.counter.number);
+  // const diff = useSelector((state) => state.counter.diff);
+  // 두번째 방법
+  const { number, diff } = useSelector(
+    (state) => ({
+      number: state.counter.number,
+      diff: state.counter.diff,
+    }),
+    // 이전 값과 다음 값을 비교하여 true가 나오면 리렌더링 X, false가 나오면 리렌더링
+    shallowEqual
+  );
 
   // useDispatch는 리덕스 스토어의 dispatch를 함수에서 사용할 수 있게 해주는 Hook
   const dispatch = useDispatch();
