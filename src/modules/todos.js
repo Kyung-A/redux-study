@@ -5,7 +5,7 @@ const TOGGLE_TODO = "todos/TOGGLE_TODO";
 // 액션 생성함수 선언
 let nextId = 1; // 고유 id
 
-export const addTOdo = (text) => ({
+export const addTodo = (text) => ({
   type: ADD_TODO,
   todo: {
     id: nextId++,
@@ -19,13 +19,7 @@ export const toggleTodo = (id) => ({
 });
 
 // 초기상태 선언(리듀서 초기 상태는 객체, 배열, 원시타입 다 가능)
-const initialState = [
-  {
-    id: 1,
-    text: "예시",
-    done: false,
-  },
-];
+const initialState = [];
 
 // 리듀서
 export default function todos(state = initialState, action) {
